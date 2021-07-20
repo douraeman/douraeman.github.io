@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/font-awesome.css" />
+    <link rel="stylesheet" href="css/layout.css">
+
+</head>
+<body>
+   <div class="container">
+       <div class="header">
+           <img src="images/favicon.ico" alt="" class="logo">
+           <h3 class="name">coco</h3>
+           <div class="foc">
+               <input type="text" class="btn" value="+关注">
+               <i  class="fa fa-times"></i>
+
+           </div>
+
+       </div>
+       <div class="main">
+
+           <div  id="hitokoto">
+               <span id="hitokotoText"></span>
+           </div>
+           <img src="https://picsum.photos/1920/1080?random=1" alt="" class="photo">
+       </div>
+       <div class="footer">
+           <div class="left">
+               <i class="fa fa-smile-o">987</i>
+               <i class="fa fa-frown-o">10</i>
+
+           </div>
+           <div class="right">
+               <i class="fa fa-commenting">34</i>
+               <i class="fa fa-share">7</i>
+           </div>
+       </div>
+   </div>
+   <script>
+       var index = 0;
+       var xhr = new XMLHttpRequest();
+       xhr.open('get', 'https://v1.hitokoto.cn?encode=text');
+       xhr.onreadystatechange = function () {
+           if (xhr.readyState === 4) {
+               var hitokotoText = document.getElementById('hitokotoText');
+               if(xhr.status === 200){
+                   var str = xhr.responseText;
+                   var intervalTimeId = setInterval(function(){
+                       if(str.length === index) {
+                           index = 0;
+                       }
+                       hitokotoText.innerText = str.substring(0, index++);
+                       if(str.length === index)
+                       {
+                           clearInterval(intervalTimeId);
+                       }
+                   }, 200);
+               }else{
+                   hitokotoText.innerText = "一言获取失败，请刷新";
+               }
+           }
+       }
+       xhr.send();
+
+
+   </script>
+
+</body>
+</html>
